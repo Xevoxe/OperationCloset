@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="com.byteground:byteground-opencv-native_2.10:0.4.0" type="repository">
+    <properties maven-id="com.byteground:byteground-opencv-native_2.10:0.4.0">
+      <exclude>
+        <dependency maven-id="com.byteground:byteground-opencv-native_2.10" />
+        <dependency maven-id="org.scala-lang:scala-library" />
+        <dependency maven-id="org.scala-lang:scala-reflect" />
+      </exclude>
+    </properties>
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

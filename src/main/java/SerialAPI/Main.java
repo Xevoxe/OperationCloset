@@ -1,22 +1,25 @@
 package SerialAPI;
 
-import jssc.SerialPort; import jssc.SerialPortException;
-
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.core.CvType;
+import org.opencv.core.Scalar;
 /** * * @author scream3r */ public class Main {
 
     /**
      * @param args the command line arguments
      */
+    // Compulsory
+    static{ System.loadLibrary(Core.NATIVE_LIBRARY_NAME); }
+
     public static void main(String[] args) {
-        SerialPort serialPort = new SerialPort("COM1");
-        try {
-            System.out.println("Port opened: " + serialPort.openPort());
-            System.out.println("Params setted: " + serialPort.setParams(9600, 8, 1, 0));
-            System.out.println("\"Hello World!!!\" successfully writen to port: " + serialPort.writeBytes("Hello World!!!".getBytes()));
-            System.out.println("Port closed: " + serialPort.closePort());
-        }
-        catch (SerialPortException ex){
-            System.out.println(ex);
-        }
+        System.out.println("Welcome to OpenCV " + Core.VERSION);
+        Mat m = new Mat(5, 10, CvType.CV_8UC1, new Scalar(0));
+        System.out.println("OpenCV Mat: " + m);
+        Mat mr1 = m.row(1);
+        mr1.setTo(new Scalar(1));
+        Mat mc5 = m.col(5);
+        mc5.setTo(new Scalar(5));
+        System.out.println("OpenCV Mat data:\n" + m.dump());
     }
 }
