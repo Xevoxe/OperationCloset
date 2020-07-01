@@ -1,0 +1,38 @@
+.root {
+    -fx-background-color: rgba(0, 100, 100, 0.5);;
+}
+
+VBox {
+    -fx-border-color: green;
+}
+BorderPane{
+    -fx-background-color: red;
+}
+
+HBox {
+    -fx-background-color: black;
+    -fx-border-color: blue;
+}
+
+#takePicture {
+        -fx-background-radius: 5em;
+        -fx-min-width: 70px;
+        -fx-min-height: 70px;
+        -fx-max-width: 70px;
+        -fx-max-height: 70px;
+        -fx-background-color: -fx-body-color;
+        -fx-background-insets: 0px;
+        -fx-padding: 0px;
+}
+#switchCamIcon {
+    -fx-background-color: #000000;
+}
+
+#switchCamIcon:pressed {
+    -fx-background-color: #6E6E6E
+}
+
+Circle {
+    -fx-stroke: grey;
+    -fx-border-color: blue;
+}
