@@ -1,13 +1,13 @@
 package acs.camera;
 
+import acs.utilities.scenemanager.SceneManager;
+import acs.utilities.scenemanager.SceneScreen;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -18,16 +18,19 @@ public class  main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws IOException, SceneManager.ExistingScene {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("CameraView.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root,900,1000);
+        SceneManager sceneManager = new SceneManager();
+
+        SceneScreen<CameraViewController> cameraScene = new SceneScreen<>("cameraScene","CameraView.fxml");
+
+        sceneManager.loadScene(cameraScene);
+
 //        scene.setFill(Color.TRANSPARENT);
 //        primaryStage.initStyle(StageStyle.TRANSPARENT);
-        primaryStage.setScene(scene);
+        primaryStage.setScene(cameraScene.getScene());
         primaryStage.setOnCloseRequest((e)->{
-            CameraViewController c = loader.getController();
+            CameraViewController c = cameraScene.getController();
             c.shutdown();
             Platform.exit();
         });

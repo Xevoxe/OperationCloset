@@ -65,6 +65,7 @@ public class VideoCaptureService {
      */
     public void ShutDown(){
         this.vCapture.release();
+        this.captureThread.ShutDown(); //Ensure captureThread is running
         this.threadService.shutdown();
 
         try {
@@ -88,15 +89,15 @@ public class VideoCaptureService {
      * Pause Video Capture
      * @throws InterruptedException
      */
-    private synchronized void PauseVideoCapture() throws InterruptedException {
-        captureThread.wait();
+    public void PauseVideoCapture() throws InterruptedException {
+        captureThread.PauseThread();
     }
 
     /**
      * Restart video capture
      */
-    private synchronized void ResumeVideoCapture(){
-        captureThread.notify();
+    public void ResumeVideoCapture(){
+        captureThread.ResumeThread();
     }
 
     private BufferedImage createImageFromMat(Mat frame){
@@ -122,6 +123,7 @@ public class VideoCaptureService {
      */
     private static class CaptureThread implements Runnable {
 
+        boolean suspended;
         Consumer<Mat> matConsumer; // Handle new frame.
         VideoCapture vCapture;
 
@@ -136,6 +138,17 @@ public class VideoCaptureService {
         }
         @Override
         public void run() {
+
+            synchronized (this){
+                while (suspended) {
+                    try {
+                        wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             if (this.vCapture.isOpened()) {
                 Mat frame = new Mat();
                 this.vCapture.read(frame); //Get frame from camera
@@ -146,6 +159,22 @@ public class VideoCaptureService {
                 });
             }
         }
+
+        public void PauseThread(){
+            suspended = true;
+        }
+
+        public synchronized void ResumeThread(){
+            suspended = false;
+            notify();
+        }
+
+        public void ShutDown(){
+            if (suspended) {
+                ResumeThread();
+            }
+        }
+
     }
 
     public static class CameraInUse extends Exception{

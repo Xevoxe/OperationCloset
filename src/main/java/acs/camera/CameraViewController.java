@@ -96,7 +96,8 @@ public class CameraViewController implements Initializable {
         this.videoCaptureService.ShutDown();
     }
 
-    public void captureImage(ActionEvent actionEvent) {
-
+    public void captureImage(ActionEvent actionEvent) throws InterruptedException {
+        //Pause the VideoCapture
+        this.videoCaptureService.PauseVideoCapture();
     }
 }
